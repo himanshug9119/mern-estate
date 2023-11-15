@@ -41,7 +41,7 @@ export default function SignIn() {
         <input
           type="text"
           placeholder="email"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg mt-5"
           id="email"
           onChange={handleChange}
         />
@@ -60,7 +60,7 @@ export default function SignIn() {
         >
           {loading ? "loading..." : "Sign In"}
         </button>
-        <OAuth/>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont have an account?</p>
