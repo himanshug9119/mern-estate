@@ -7,7 +7,14 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
-import {updateUserStart , updateUserSuccess, updateUserFailure} from '../redux/user/userSlice.js'
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserFailure,
+  deleteUserSuccess,
+  deleteUserStart,
+} from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 // firebase storage rules-
 //       allow read;
@@ -76,6 +83,26 @@ export default function Profile() {
     }
 
   }
+  const handleDeleteUser = async ()=>{
+    try {
+      dispatch(deleteUserStart())
+      const res = await fetch(`/api/user/delete/${currentUser._id}` , {
+        method:"DELETE",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        });
+        const data = await res.json();
+        if(data.success ==  false){
+          dispatch(deleteUserFailure(data.message));
+          return ;
+        }
+        dispatch(deleteUserSuccess(data));
+        setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -92,7 +119,7 @@ export default function Profile() {
           src={formData.avatar || currentUser.avatar}
           alt="Profile Avatar"
           className="rounded
-        -full h-24 w-24 object-cover curser-pointer self-center "
+        -full h-24 w-24 object-cover cursor-pointer self-center "
         />
         <p className="text-sm self-center">
           {fileUploadError ? (
@@ -133,7 +160,8 @@ export default function Profile() {
           id="password"
           onChange={handleChange}
         />
-        <button disabled={loading}
+        <button
+          disabled={loading}
           className="bg-slate-700 text-white rounded-lg 
          p-3 uppercase hover:opacity-95 disabled:opacity-85"
         >
@@ -141,11 +169,16 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-4">
-        <span className="text-red-700 curser-pointer"> Delete Account</span>
-        <span className="text-red-700 curser-pointer"> Sign Out</span>
+        <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">
+
+          Delete Account
+        </span>
+        <span className="text-red-700 cursor-pointer"> Sign Out</span>
       </div>
-      <p className="text-red-700 mt-3">{error ? error : ''}</p>
-      <p className="text-green-700 mt-3">{updateSuccess ? "User is Updated Successfully" : ''}</p>
+      <p className="text-red-700 mt-3">{error ? error : ""}</p>
+      <p className="text-green-700 mt-3">
+        {updateSuccess ? "User is Updated Successfully" : ""}
+      </p>
     </div>
   );
 }
