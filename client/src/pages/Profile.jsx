@@ -184,6 +184,13 @@ export default function Profile() {
         >
           {loading ? "Loading..." : "Update"}
         </button>
+        <button
+          disabled={loading}
+          className="bg-green-700 text-white rounded-lg 
+          p-3 uppercase hover:opacity-95 disabled:opacity-85"
+          >
+          Creat Listing
+        </button>
       </form>
       <div className="flex justify-between mt-4">
         <span
