@@ -55,7 +55,7 @@ export default function createListing() {
               <span>Offer</span>
             </div>
           </div>
-          <div className='flex flex-wrap gap-6'>
+          <div className="flex flex-wrap gap-6">
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -102,15 +102,16 @@ export default function createListing() {
                 required
               />
               <div>
-                <p>Discounted Price</p>className='flex flex-col item-center'
+                <p className="flex flex-col item-center">Discounted Price</p>
                 <span className="text-xs">{"$"}</span>
               </div>
             </div>
           </div>
         </div>
-        <div className='flex flex-col flex-1 gap-4'>
-          <p className='font-semibold'>Images:
-            <span className='font-normal text-gray-600 ml-2'>
+        <div className="flex flex-col flex-1 gap-4">
+          <p className="font-semibold">
+            Images:
+            <span className="font-normal text-gray-600 ml-2">
               The first image will be cover (max - 6)
             </span>
           </p>
@@ -123,12 +124,14 @@ export default function createListing() {
               className="border border-gray-300 p-3 rounded w-full"
               required
             />
-            <button className='p-3 text-green-700 border border-green-700 
-            rounded uppercase hover:shadow-lg disabled:opacity-80'>
+            <button
+              className="p-3 text-green-700 border border-green-700 
+            rounded uppercase hover:shadow-lg disabled:opacity-80"
+            >
               upload
             </button>
           </div>
-          <button className='p-3 bg-slate-700 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 '>
+          <button className="p-3 bg-slate-700 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 ">
             Create Listing
           </button>
         </div>
