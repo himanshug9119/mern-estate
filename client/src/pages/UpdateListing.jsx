@@ -139,7 +139,7 @@ export default function createListing() {
     try {
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -332,7 +332,6 @@ export default function createListing() {
               accept="image/*"
               id="images"
               className="border border-gray-300 p-3 rounded w-full"
-              required
             />
             <button
               type="button"
