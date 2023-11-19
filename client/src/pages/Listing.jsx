@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/bundle';
+import Contact from '../components/Contact.jsx'
 import {
   FaBath,
   FaBed,
@@ -14,13 +15,16 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 export default function Listing() {
+    const {currentUser} = useSelector((state)=>state.user);
     const params = useParams();
     SwiperCore.use(Navigation);
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(true);
     const [copied, setCopied] = useState(false);
     const [error, setError] = useState(false);
+    const [contact , setContact] = useState(false);
     useEffect(() => {
         const fetchListing = async () => {
             try {
@@ -42,7 +46,6 @@ export default function Listing() {
         }
         fetchListing();
     }, [params.listingId])
-    console.log(loading);
     return (
       <main>
         {loading && (
@@ -135,6 +138,13 @@ export default function Listing() {
                   {listing.parking ? "Parking spot" : "No Parking"}
                 </li>
               </ul>
+              {currentUser && listing.userRef !== currentUser._id && !contact && (
+                <button onClick={()=>setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase 
+                    hover:opacity-95 p-3'>
+                    Contact Landlord
+                </button>
+              )}
+              {contact && <Contact listing={listing}/>}
             </div>
           </>
         )}
