@@ -287,7 +287,7 @@ export default function createListing() {
                 id="regularPrice"
                 className="p-3 border-gray-300 rounder-lg"
                 min="50"
-                max="1000"
+                max="10000000"
                 required
                 onChange={handleChange}
                 value={formData.regularPrice}
@@ -304,7 +304,7 @@ export default function createListing() {
                   id="discountedPrice"
                   className="p-3 border-gray-300 rounder-lg"
                   min="0"
-                  max="1000"
+                  max="10000000"
                   required
                   onChange={handleChange}
                   value={formData.discountedPrice}
