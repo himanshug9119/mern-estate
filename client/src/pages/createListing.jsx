@@ -261,34 +261,38 @@ export default function createListing() {
                 id="regularPrice"
                 className="p-3 border-gray-300 rounder-lg"
                 min="50"
-                max="1000"
+                max="1000000"
                 required
                 onChange={handleChange}
                 value={formData.regularPrice}
               />
               <div className="flex flex-col item-center">
                 <p>Regular Price</p>
-                <span className="text-xs">{"$ / month"}</span>
+                <span className="text-xs">
+                  {formData.type === "rent" && " / Month"}
+                </span>
               </div>
             </div>
-            {formData.offer && 
+            {formData.offer && (
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   id="discountedPrice"
                   className="p-3 border-gray-300 rounder-lg"
                   min="0"
-                  max="1000"
+                  max="1000000"
                   required
                   onChange={handleChange}
                   value={formData.discountedPrice}
-                  />
+                />
                 <div>
                   <p className="flex flex-col item-center">Discounted Price</p>
-                  <span className="text-xs">{"$ / month"}</span>
+                  <span className="text-xs">
+                    {formData.type === "rent" && " / Month"}
+                  </span>
                 </div>
               </div>
-            }
+            )}
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">
@@ -341,10 +345,13 @@ export default function createListing() {
                 </button>
               </div>
             ))}
-          <button disabled={loading||uploading} className="p-3 bg-slate-700 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 ">
-            {loading ? 'Creating..' : 'Create Listing'}
+          <button
+            disabled={loading || uploading}
+            className="p-3 bg-slate-700 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 "
+          >
+            {loading ? "Creating.." : "Create Listing"}
           </button>
-          {error && <p className='text-red-700 text-sm'>{error}</p>}
+          {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
       </form>
     </main>

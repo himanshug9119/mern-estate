@@ -228,8 +228,7 @@ export default function Profile() {
         <Link
           to={"/create-listing"}
           className="bg-green-700 text-white rounded-lg 
-            p-3 uppercase hover:opacity-95 disabled:opacity-85"
-        >
+            p-3 uppercase hover:opacity-95 disabled:opacity-85 text-center">
           Create Listing
         </Link>
       </form>
