@@ -147,8 +147,10 @@ export default function Listing() {
               {contact && <Contact listing={listing}/>}
             </div>
           </>
+        )};
+        {!listing && !loading && (
+          <p className='text-slate-700 text-center'>Listing does not exist</p>
         )}
-        ;
       </main>
     );
 }
