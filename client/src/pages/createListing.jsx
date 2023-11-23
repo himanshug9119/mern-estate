@@ -11,10 +11,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 export default function CreateListing() {
   const navigate = useNavigate();
-  const {currentUser} = useSelector(state=>state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const [files, setFiles] = useState([]);
-  const [error , setError] = useState(false);
-  const [loading , setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -30,8 +30,8 @@ export default function CreateListing() {
     regularPrice: 50,
     discountedPrice: 0,
   });
-  const [imageUploadError , setImageUploadError] = useState(false);
-  const [uploading , setUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState(false);
+  const [uploading, setUploading] = useState(false);
   console.log(formData);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -39,92 +39,106 @@ export default function CreateListing() {
       setUploading(true);
       const promises = [];
       for (let i = 0; i < files.length; i++) {
-          promises.push(storeImage(files[i]));
+        promises.push(storeImage(files[i]));
       }
-      Promise.all(promises).then((urls) => {
-        setFormData({
-          ...formData,
-          imageUrls: formData.imageUrls.concat(urls),
+      Promise.all(promises)
+        .then((urls) => {
+          setFormData({
+            ...formData,
+            imageUrls: formData.imageUrls.concat(urls),
+          });
+          setImageUploadError(false);
+          setUploading(false);
+        })
+        .catch((error) => {
+          setImageUploadError(
+            "Image upload failed 2MB max per image and png,jpg,jpeg file formet supported"
+          );
+          setUploading(false);
         });
-        setImageUploadError(false);
-        setUploading(false);
-      }).catch((error) =>{
-        setImageUploadError("Image upload failed 2MB max per image and png,jpg,jpeg file formet supported");
-        setUploading(false);
-      })
-    }else{
+    } else {
       setImageUploadError("You can upload upto 6 images per listing");
       setUploading(false);
     }
   };
-  const storeImage = async (file) =>{
-    return new Promise ((resolve , reject )=>{
+  const storeImage = async (file) => {
+    return new Promise((resolve, reject) => {
       const storage = getStorage(app);
       const fileName = new Date().getTime() + file.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on("state_changed",
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(Math.round(progress));
-      },
-      (error) => {
-        reject(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then
-        ((downloadURL) => {
-          resolve(downloadURL);
-        });
-      }
-      )
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(Math.round(progress));
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
     });
-  }
-  const handleRemoveImage = (index) =>{
+  };
+  const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
-      imageUrls: formData.imageUrls.filter((_ , i) => i !== index),
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
-  }
-  const handleChange = (e)=>{
-    if(e.target.id === 'sale' || e.target.id === 'rent'){
+  };
+  const handleChange = (e) => {
+    if (e.target.id === "sale" || e.target.id === "rent") {
       setFormData({
         ...formData,
-        type:e.target.id,
-      })
+        type: e.target.id,
+      });
     }
-    if(e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer'){
+    if (
+      e.target.id === "parking" ||
+      e.target.id === "furnished" ||
+      e.target.id === "offer"
+    ) {
       setFormData({
         ...formData,
-        [e.target.id]:e.target.checked,
-      })
+        [e.target.id]: e.target.checked,
+      });
     }
-    if(e.target.type === 'number' || e.target.type === 'text' || e.target.type === 'textarea' ){
+    if (
+      e.target.type === "number" ||
+      e.target.type === "text" ||
+      e.target.type === "textarea"
+    ) {
       setFormData({
         ...formData,
-        [e.target.id]:e.target.value,
-      })
+        [e.target.id]: e.target.value,
+      });
     }
-  }
+  };
   console.log(formData);
-  const handleSubmit = async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(formData.discountedPrice >= formData.regularPrice) return setError("Discounted Price must be less then regular Price");
+    if (formData.discountedPrice >= formData.regularPrice)
+      return setError("Discounted Price must be less then regular Price");
     try {
       setLoading(true);
       setError(false);
-      const res = await fetch('/api/listing/create',{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
+      const res = await fetch("/api/listing/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
+        body: JSON.stringify({
           ...formData,
-          userRef:currentUser._id
+          userRef: currentUser._id,
         }),
       });
       const data = await res.json();
-      if(data.success === false){
+      if (data.success === false) {
         setError(data.message);
         setLoading(false);
         return;
@@ -136,7 +150,7 @@ export default function CreateListing() {
       setError(error.message);
       setLoading(false);
     }
-  }
+  };
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
