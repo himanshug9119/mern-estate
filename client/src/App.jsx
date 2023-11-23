@@ -9,8 +9,8 @@ import Listing from './pages/Listing';
 import createList from './pages/createList';
 import UpdateListing from './pages/UpdateListing';
 import Search from './pages/Search';
-import PrivateRoute1 from './components/PrivateRoute';
-import PrivateRoute2 from './components/PrivateRoute';
+import {PrivateRoute1} from './components/PrivateRoute';
+import {PrivateRoute2} from './components/PrivateRoute';
 export default function App(){
   return (
     <BrowserRouter>
