@@ -22,6 +22,8 @@ export default function Header() {
     const searchTermFromUrl = urlParams.get('searchTerm');
     if(searchTermFromUrl){
       setSearchTerm(searchTermFromUrl);
+    }else{
+      setSearchTerm('');
     }
   },[location.search])
 
