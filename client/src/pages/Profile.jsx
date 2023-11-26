@@ -38,6 +38,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const [userListings , setUserListings] = useState({});
   const [showListingsError, setShowListingsError] = useState(false);
+  const [getUserError , setGetUserError] = useState(false);
   useEffect(() => {
     if (file) {
       handelFileUpload(file);
@@ -66,7 +67,25 @@ export default function Profile() {
   const handleChange = (e) =>{
     setFormData({...formData, [e.target.id]:e.target.value});
   };
-
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setGetUserError(false);
+        const res = await fetch(`/api/user/${currentUser._id}`);
+        const data = await res.json();
+        if (data.success == false) {
+          setGetUserError(true);
+          return ;
+        } 
+        setGetUserError(false);
+        setFormData(data);
+      } catch (error) {
+        setGetUserError(error);
+        console.log(error);
+      }
+    };
+    fetchUserData();
+  }, []);
   const handleSubmit = async (e) =>{
     e.preventDefault();
     try {
@@ -197,7 +216,7 @@ export default function Profile() {
           placeholder="username"
           className="border
           p-3 rounded-lg"
-          defaultValue={currentUser.username}
+          defaultValue={(formData && formData.username)}
           id="username"
           onChange={handleChange}
         />
@@ -206,7 +225,7 @@ export default function Profile() {
           placeholder="email"
           className="border
           p-3 rounded-lg"
-          defaultValue={currentUser.email}
+          defaultValue={(formData && formData.email)}
           id="email"
           onChange={handleChange}
         />
@@ -228,7 +247,8 @@ export default function Profile() {
         <Link
           to={"/create-listing"}
           className="bg-green-700 text-white rounded-lg 
-            p-3 uppercase hover:opacity-95 disabled:opacity-85 text-center">
+            p-3 uppercase hover:opacity-95 disabled:opacity-85 text-center"
+        >
           Create Listing
         </Link>
       </form>
@@ -248,6 +268,9 @@ export default function Profile() {
       <p className="text-green-700 mt-3">
         {updateSuccess ? "User is Updated Successfully" : ""}
       </p>
+      {getUserError &&(
+        <p className="text-red-700">Getting user error - {error}</p>
+      )}
       <button
         onClick={handleListings}
         className="text-green-700 w-full cursor-pointer"
@@ -257,14 +280,12 @@ export default function Profile() {
       {showListingsError && (
         <p className="text-red-700">Error while fetching listings</p>
       )}
-      {userListings &&
-        userListings.length > 0 &&
+      {userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-semibold text-center mt-7">
-          Your Listings
+            Your Listings
           </h1>
-          {
-          userListings.map((listing) => (
+          {userListings.map((listing) => (
             <div
               key={listing._id}
               className="flex border rounder-lg p-3 justify-between items-center gap-6"
@@ -283,16 +304,20 @@ export default function Profile() {
                 <p> {listing.name}</p>
               </Link>
               <div className="flex flex-col gap-5 items-center">
-                <button onClick={()=>handleDeleteListing(listing._id)} className="text-red-700 uppercase">Delete</button>
+                <button
+                  onClick={() => handleDeleteListing(listing._id)}
+                  className="text-red-700 uppercase"
+                >
+                  Delete
+                </button>
                 <Link to={`/update-listing/${listing._id}`}>
-                <button className="text-green-700 uppercase">Edit</button>
+                  <button className="text-green-700 uppercase">Edit</button>
                 </Link>
               </div>
             </div>
-          ))
-          }
+          ))}
         </div>
-      }
+      )}
     </div>
   );
 }
