@@ -9,7 +9,7 @@ import {
 import { app } from "../firebase.js";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-export default function CreateList() {
+export default function CreateListing() {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const [files, setFiles] = useState([]);
