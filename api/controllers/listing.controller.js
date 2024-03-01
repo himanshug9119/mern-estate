@@ -10,6 +10,7 @@ export const createListing = async (req , res , next)=>{
     }
 }
 export const deleteListing = async (req , res, next)=>{
+    console.log(req.params.name);
     try{
         const listing = await Listing.findById(req.params.id);
         if(listing.userRef != req.user.id) return next(errorHandler(401 , "You can only delete your own listings"));
@@ -17,6 +18,7 @@ export const deleteListing = async (req , res, next)=>{
         return res.status(200).json("Listing has been deleted");
     }
     catch (error) {
+        console.log(error);
         next(error);
     }
 }

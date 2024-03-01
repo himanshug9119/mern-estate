@@ -160,6 +160,7 @@ export default function Profile() {
     }
   }
   const handleDeleteListing = (listingId)=>{
+    // console.log(listingId);
     return async ()=>{
       try {
         setShowListingsError(false);
@@ -176,6 +177,7 @@ export default function Profile() {
           }
           handleListings();
       } catch (error) {
+        console.log(error);
         setShowListingsError(true);
       }
     }
