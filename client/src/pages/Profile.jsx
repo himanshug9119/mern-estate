@@ -216,7 +216,7 @@ export default function Profile() {
           placeholder="username"
           className="border
           p-3 rounded-lg"
-          defaultValue={(formData && formData.username)}
+          defaultValue={formData && formData.username}
           id="username"
           onChange={handleChange}
         />
@@ -225,7 +225,7 @@ export default function Profile() {
           placeholder="email"
           className="border
           p-3 rounded-lg"
-          defaultValue={(formData && formData.email)}
+          defaultValue={formData && formData.email}
           id="email"
           onChange={handleChange}
         />
@@ -268,7 +268,7 @@ export default function Profile() {
       <p className="text-green-700 mt-3">
         {updateSuccess ? "User is Updated Successfully" : ""}
       </p>
-      {getUserError &&(
+      {getUserError && (
         <p className="text-red-700">Getting user error - {error}</p>
       )}
       <button
@@ -280,6 +280,9 @@ export default function Profile() {
       {showListingsError && (
         <p className="text-red-700">Error while fetching listings</p>
       )}
+      {userListings &&
+        userListings.length == 0 && 
+          (<p className="text-red-700">No Listings found</p>)}
       {userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-semibold text-center mt-7">
