@@ -2,12 +2,14 @@ import {Link} from 'react-router-dom';
 import {useState, useEffect} from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
-import { Navigation } from "swiper/modules";
+import { Autoplay,Pagination,Keyboard } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 
 export default function Home() {
-  SwiperCore.use([Navigation]);
+  SwiperCore.use([Autoplay]);
+  SwiperCore.use([Pagination]);
+  SwiperCore.use([Keyboard]);
   const [offerListings , setOfferListings] = useState({});
   const [rentListings , setRentListings] = useState([]);
   const [saleListings , setSaleListings] = useState([]);
@@ -65,7 +67,18 @@ export default function Home() {
           Let's get started
         </Link>
       </div>
-      <Swiper navigation>
+      <Swiper
+        loop
+        speed={1000}
+        keyboard
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+      >
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
@@ -75,7 +88,7 @@ export default function Home() {
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgoundSize: "cover",
                 }}
-                className="h-[500px]"
+                className="h-[500px] w-full bg-cover bg-center bg-no-repeat"
                 key={listing._id}
               ></div>
             </SwiperSlide>
@@ -106,7 +119,7 @@ export default function Home() {
             </div>
           </div>
         )}
-      
+
         {rentListings && rentListings.length > 0 && (
           <div className="flex flex-col gap-6">
             <div className="my-3">
@@ -137,7 +150,7 @@ export default function Home() {
                 className="text-sm text-blue-800 hover:underline"
                 to={"/search?type=sale"}
               >
-                Show more 
+                Show more
               </Link>
             </div>
             <div className="flex flex-wrap gap-6">

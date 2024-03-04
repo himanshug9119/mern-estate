@@ -27,8 +27,8 @@ export default function CreateListing() {
     offer: false,
     bedrooms: 1,
     bothrooms: 1,
-    regularPrice: 50,
-    discountedPrice: 0,
+    regularPrice: 5000,
+    discountedPrice: 4500,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -160,11 +160,11 @@ export default function CreateListing() {
         <div className="flex flex-col gap-4 flex-1">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Title"
             className="border
             p-3 rounded-lg"
             id="name"
-            maxLength="62"
+            maxLength="100"
             minLength="10"
             required
             onChange={handleChange}
@@ -249,7 +249,6 @@ export default function CreateListing() {
                 id="bedrooms"
                 className="p-3 border-gray-300 rounder-lg"
                 min="1"
-                max="10"
                 required
                 onChange={handleChange}
                 value={formData.bedrooms}
@@ -262,20 +261,18 @@ export default function CreateListing() {
                 id="bothrooms"
                 className="p-3 border-gray-300 rounder-lg"
                 min="1"
-                max="10"
                 required
                 onChange={handleChange}
                 value={formData.bothrooms}
               />
-              <p>Boths</p>
+              <p>Bothrooms</p>
             </div>
             <div className="flex items-center gap-2">
               <input
                 type="number"
                 id="regularPrice"
                 className="p-3 border-gray-300 rounder-lg"
-                min="50"
-                max="1000000"
+                min="5000"
                 required
                 onChange={handleChange}
                 value={formData.regularPrice}
@@ -293,8 +290,7 @@ export default function CreateListing() {
                   type="number"
                   id="discountedPrice"
                   className="p-3 border-gray-300 rounder-lg"
-                  min="0"
-                  max="1000000"
+                  min="4500"
                   required
                   onChange={handleChange}
                   value={formData.discountedPrice}
