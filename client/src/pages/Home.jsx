@@ -1,8 +1,8 @@
-import {Link} from 'react-router-dom';
-import {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
-import { Autoplay,Pagination,Keyboard } from "swiper/modules";
+import { Autoplay, Pagination, Keyboard } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 
@@ -10,12 +10,12 @@ export default function Home() {
   SwiperCore.use([Autoplay]);
   SwiperCore.use([Pagination]);
   SwiperCore.use([Keyboard]);
-  const [offerListings , setOfferListings] = useState({});
-  const [rentListings , setRentListings] = useState([]);
-  const [saleListings , setSaleListings] = useState([]);
+  const [offerListings, setOfferListings] = useState({});
+  const [rentListings, setRentListings] = useState([]);
+  const [saleListings, setSaleListings] = useState([]);
   console.log(offerListings);
-  useEffect(()=>{
-    const fetchOfferListings = async ()=>{
+  useEffect(() => {
+    const fetchOfferListings = async () => {
       try {
         const res = await fetch('/api/listing/get?offer=true&limit=4');
         const data = await res.json();
@@ -25,7 +25,7 @@ export default function Home() {
         console.log(error);
       }
     }
-    const fetchRentListings = async ()=>{
+    const fetchRentListings = async () => {
       try {
         const res = await fetch("/api/listing/get?type=rent&limit=4");
         const data = await res.json();
@@ -35,7 +35,7 @@ export default function Home() {
         console.log(error);
       }
     }
-    const fetchSaleListings = async ()=>{
+    const fetchSaleListings = async () => {
       try {
         const res = await fetch("/api/listing/get?type=sale&limit=4");
         const data = await res.json();
@@ -45,11 +45,11 @@ export default function Home() {
       }
     }
     fetchOfferListings();
-  },[]);
+  }, []);
   return (
     <div>
       {/* {top} */}
-      <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
+      {/* <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
         <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
           Find your next <span className="text-slate-500">perfect</span> <br />
           place with ease
@@ -66,13 +66,13 @@ export default function Home() {
         >
           Let's get started
         </Link>
-      </div>
+      </div> */}
       <Swiper
         loop
-        speed={1000}
+        speed={500}
         keyboard
         autoplay={{
-          delay: 3000,
+          delay: 5000,
           disableOnInteraction: false,
         }}
         pagination={{
@@ -90,7 +90,27 @@ export default function Home() {
                 }}
                 className="h-[500px] w-full bg-cover bg-center bg-no-repeat"
                 key={listing._id}
-              ></div>
+              >
+                <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
+                  <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
+                    Find your next <span className="text-slate-500">perfect</span> <br />
+                    place with ease
+                  </h1>
+                  <div className="text-grey-700 text-2xl sm:text-sm">
+                    Himanshu Estate is the best place to find your next perfect place to
+                    live.
+                    <br />
+                    We have wide range of properties for you to choose from.
+                  </div>
+                  <Link
+                    className="text-xs sm:text-sm text-blue-800 font-bold hover:unserline"
+                    to="/search"
+                  >
+                    Let's get started
+                  </Link>
+                </div>
+
+              </div>
             </SwiperSlide>
           ))}
       </Swiper>
