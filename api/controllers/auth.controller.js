@@ -4,14 +4,14 @@ import {errorHandler} from '../utils/error.js'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config();
-const hash_password_times = 10;
+const HASH_PASSWORD_TIMES = 10;
 const SECRET_KEY = process.env.JWT_SECRET ;
-console.log(SECRET_KEY)
+
 export const signup = async (req , res, next)=>{
     const {username , email, password} = req.body;
     const hasedPassword = bcryptjs.hashSync(
       password,
-      hash_password_times
+      HASH_PASSWORD_TIMES
     );
     const newUser = new User({ username, email, password:hasedPassword });
     try {
@@ -27,7 +27,6 @@ export const signin = async (req , res, next)=>{
     if(!email || !password){
         res.status(400).json({"Message":"Please provide username and password"})
     }
-    let user ;
     try{
         const validUser = await User.findOne({ email });
         if (!validUser) return next(errorHandler(404 , 'User Not found'));
@@ -55,7 +54,7 @@ export const google = async (req , res, next)=>{
               Math.random().toString(36).slice(-8);
             const hasedPassword = bcryptjs.hashSync(
                 generatedPassword,
-                hash_password_times
+                HASH_PASSWORD_TIMES
                 );  
             const newUser = new User({
               username:

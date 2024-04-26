@@ -27,12 +27,11 @@ export default function CreateListing() {
     offer: false,
     bedrooms: 1,
     bothrooms: 1,
-    regularPrice: 5000,
-    discountedPrice: 4500,
+    regularPrice: 50000,
+    discountedPrice: 45000,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  console.log(formData);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setImageUploadError(false);
@@ -52,7 +51,7 @@ export default function CreateListing() {
         })
         .catch((error) => {
           setImageUploadError(
-            "Image upload failed 2MB max per image and png,jpg,jpeg file formet supported"
+            "Image upload failed 2MB max per image and png,jpg,jpeg file formet supported" + error
           );
           setUploading(false);
         });
@@ -119,7 +118,6 @@ export default function CreateListing() {
       });
     }
   };
-  console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.discountedPrice >= formData.regularPrice)

@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser'
 import path from 'path'
 dotenv.config();
 const url = process.env.MONGO ;
-console.log(url)
+
 mongoose.connect(url).then(()=>{
     console.log('Connected to mongoDB');
 }).catch((err)=>{
