@@ -38,28 +38,53 @@ export default function CreateListing() {
       setUploading(true);
       const promises = [];
       for (let i = 0; i < files.length; i++) {
+        if (files[i].size > 2 * 1024 * 1024) {
+          setImageUploadError(`File ${files[i].name} is too large. Maximum allowed size is 2MB.`);
+          setUploading(false);
+          return;
+        }
+        const fileType = files[i].type;
+        if (!['image/png', 'image/jpeg', 'image/jpg'].includes(fileType)) {
+          setImageUploadError(`File ${files[i].name} is not a valid image type. Only png, jpg, and jpeg are allowed.`);
+          setUploading(false)
+          return;
+        }
         promises.push(storeImage(files[i]));
       }
-      Promise.all(promises)
-        .then((urls) => {
+      Promise.allSettled(promises)
+       .then((results) => {
+          const successfulUploads = results
+           .filter(result => result.status === "fulfilled")
+           .map(result => result.value);
+          const failedUploads = results
+           .filter(result => result.status === "rejected");
+  
+          if (failedUploads.length > 0) {
+            setImageUploadError(
+              `Some images failed to upload. ${failedUploads.length} failed. Please ensure each image is less than 2MB and in png, jpg, or jpeg format.`
+            );
+          }
+  
           setFormData({
-            ...formData,
-            imageUrls: formData.imageUrls.concat(urls),
+           ...formData,
+            imageUrls: formData.imageUrls.concat(successfulUploads),
           });
-          setImageUploadError(false);
+  
           setUploading(false);
         })
-        .catch((error) => {
-          setImageUploadError(
-            "Image upload failed 2MB max per image and png,jpg,jpeg file formet supported" + error
-          );
+       .catch((error) => {
+          setImageUploadError(`Image upload failed. Please try again. Error: ${error}`);
           setUploading(false);
         });
+    } else if (files.length + formData.imageUrls.length > 6) {
+      setImageUploadError(`You can upload up to 6 images per listing. You have already uploaded ${formData.imageUrls.length} images.`);
+      setUploading(false);
     } else {
-      setImageUploadError("You can upload upto 6 images per listing");
+      setImageUploadError("Please select at least one image");
       setUploading(false);
     }
   };
+  
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
@@ -71,10 +96,10 @@ export default function CreateListing() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(Math.round(progress));
+          // Optional: handle upload progress
         },
         (error) => {
-          reject(error);
+          reject(`Error uploading file ${file.name}: ${error.message}`);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -84,6 +109,7 @@ export default function CreateListing() {
       );
     });
   };
+  
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
@@ -242,37 +268,55 @@ export default function CreateListing() {
           </div>
           <div className="flex flex-wrap gap-5">
             <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bedrooms"
-                className="p-3 border-gray-300 rounder-lg"
-                min="1"
-                required
-                onChange={handleChange}
-                value={formData.bedrooms}
-              />
+            <input
+              type="text"
+              id="bedrooms"
+              className="p-3 border-gray-300 rounder-lg"
+              pattern="[0-9]*"
+              min="1"
+              required
+              onChange={handleChange}
+              onKeyDown={(event) => {
+                if (event.key < '0' || event.key > '9') {
+                  event.preventDefault();
+                }
+              }}
+              value={formData.bedrooms}
+            />
               <p>Beds</p>
             </div>
             <div className="flex items-center gap-2">
               <input
-                type="number"
+                type="text"
                 id="bothrooms"
                 className="p-3 border-gray-300 rounder-lg"
                 min="1"
                 required
                 onChange={handleChange}
+                pattern="[0-9]*"
+                onKeyDown={(event) => {
+                  if (event.key < '0' || event.key > '9') {
+                    event.preventDefault();
+                  }
+                }}
                 value={formData.bothrooms}
               />
               <p>Bothrooms</p>
             </div>
             <div className="flex items-center gap-2">
               <input
-                type="number"
+                type="text"
                 id="regularPrice"
                 className="p-3 border-gray-300 rounder-lg"
                 min="5000"
                 required
                 onChange={handleChange}
+                pattern="[0-9]*"
+                onKeyDown={(event) => {
+                  if (event.key < '0' || event.key > '9') {
+                    event.preventDefault();
+                  }
+                }}
                 value={formData.regularPrice}
               />
               <div className="flex flex-col item-center">
@@ -285,12 +329,18 @@ export default function CreateListing() {
             {formData.offer && (
               <div className="flex items-center gap-2">
                 <input
-                  type="number"
+                  type="text"
                   id="discountedPrice"
                   className="p-3 border-gray-300 rounder-lg"
                   min="4500"
                   required
                   onChange={handleChange}
+                  pattern="[0-9]*"
+                  onKeyDown={(event) => {
+                    if (event.key < '0' || event.key > '9') {
+                      event.preventDefault();
+                    }
+                  }}
                   value={formData.discountedPrice}
                 />
                 <div>
