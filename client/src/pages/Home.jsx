@@ -5,7 +5,6 @@ import SwiperCore from "swiper";
 import { Autoplay, Pagination, Keyboard } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
-
 export default function Home() {
   SwiperCore.use([Autoplay]);
   SwiperCore.use([Pagination]);
@@ -92,11 +91,11 @@ export default function Home() {
                 key={listing._id}
               >
                 <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-                  <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
-                    Find your next <span className="text-slate-500">perfect</span> <br />
+                  <h1 className="text-zinc-50 font-bold text-3xl lg:text-6xl">
+                    Find your next <span className="text-zinc-200">perfect</span> <br />
                     place with ease
                   </h1>
-                  <div className="text-grey-700 text-2xl sm:text-sm">
+                  <div className="text-zinc-50 text-2xl sm:text-sm">
                     Himanshu Estate is the best place to find your next perfect place to
                     live.
                     <br />
