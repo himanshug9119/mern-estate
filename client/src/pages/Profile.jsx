@@ -40,11 +40,16 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const [getUserError , setGetUserError] = useState(false);
   useEffect(() => {
+    if(fileUploadError) setFileUploadError(false);
     if (file) {
       handelFileUpload(file);
     }
   }, [file]);
   const handelFileUpload = (file) => {
+    if (file.size > 2 * 1024 * 1024) {
+      setFileUploadError(true);
+      return;
+    }
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
@@ -203,7 +208,7 @@ export default function Profile() {
         <p className="text-sm self-center">
           {fileUploadError ? (
             <span className="text-red-700">
-              Error while uploading file Image Must be less then 2MB
+              Error while uploading file Image Must be less then 2MB 
             </span>
           ) : filePerc > 0 && filePerc < 100 ? (
             <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
@@ -231,14 +236,14 @@ export default function Profile() {
           id="email"
           onChange={handleChange}
         />
-        <input
+        {/* <input
           type="text"
           placeholder="password"
           className="border
          p-3 rounded-lg"
           id="password"
           onChange={handleChange}
-        />
+        /> */}
         <button
           disabled={loading}
           className="bg-slate-700 text-white rounded-lg 
