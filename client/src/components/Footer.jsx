@@ -1,67 +1,93 @@
-import React from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom'
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 const Footer = () => {
   return (
-    <footer className="bg-gray-200 h-screen mt-20 md:h-auto py-12 px-4 md:px-8">
-      <div className="container mx-auto flex flex-wrap justify-between ">
-        <div className="w-full md:w-1/2 xl:w-1/3 mb-4 sm:mb-5">
-          <h5 className="uppercase text-lg mb-2">Quick Links</h5>
+    <footer className="bg-gray-800 text-white py-12 px-4 md:px-8">
+      <div className="container mx-auto flex flex-wrap justify-between">
+        <div className="w-full md:w-1/2 lg:w-1/3 mb-8">
+          <h5 className="uppercase text-lg font-bold mb-4">Quick Links</h5>
           <ul className="list-none mb-0">
             <li className="mb-2">
-              <Link to="about" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to="about"
+                className="hover:text-orange-400 transition duration-200"
+              >
                 About Us
               </Link>
             </li>
             <li className="mb-2">
-              <Link to="/contact" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to="/contact"
+                className="hover:text-orange-400 transition duration-200"
+              >
                 Contact Us
               </Link>
             </li>
             <li className="mb-2">
-              <Link to="/about" className="text-gray-600 hover:text-gray-900">
+              <Link
+                to="/faq"
+                className="hover:text-orange-400 transition duration-200"
+              >
                 FAQ
               </Link>
             </li>
           </ul>
         </div>
-        <div className="w-full md:w-1/2 xl:w-1/3 mb-4 md:mb-0">
-          <h5 className="uppercase text-lg mb-2">Social Media</h5>
-          <ul className="list-none mb-0 flex justify-start">
-            <li className="mr-4">
-              <a href="https://x.com/himanshug9119" className="text-gray-600 hover:text-gray-900" target='_blank'>
-                <i className="fab fa-twitter" />
-              </a>
-            </li>
-            <li className="mr-4">
-              <a href="https://www.instagram.com/himanshug9119/" className="text-gray-600 hover:text-gray-900" target='_blank'>
-                <i className="fab fa-instagram" />
+        <div className="w-full md:w-1/2 lg:w-1/3 mb-8">
+          <h5 className="uppercase text-lg font-bold mb-4">Social Media</h5>
+          <ul className="list-none flex justify-start space-x-4">
+            <li>
+              <a
+                href="https://x.com/himanshug9119"
+                className="hover:text-orange-400 transition duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-twitter text-xl" />
               </a>
             </li>
             <li>
-              <a href="https://www.linkedin.com/in/himanshug9119/" className="text-gray-600 hover:text-gray-900" target='_blank'>
-                <i className="fab fa-linkedin-in" />
+              <a
+                href="https://www.instagram.com/himanshug9119/"
+                className="hover:text-orange-400 transition duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-instagram text-xl" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/himanshug9119/"
+                className="hover:text-orange-400 transition duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-linkedin-in text-xl" />
               </a>
             </li>
           </ul>
         </div>
-        <div className="w-full md:w-1/2 xl:w-1/3 mb-4 md:mb-0">
-          <h5 className="uppercase text-lg mb-2">Subscribe to our Newsletter</h5>
-          <form className="flex flex-wrap gap-2">
+        <div className="w-full md:w-1/2 lg:w-1/3 mb-8">
+          <h5 className="uppercase text-lg font-bold mb-4">
+            Subscribe to our Newsletter
+          </h5>
+          <form className="flex flex-col md:flex-row gap-2">
             <input
               type="email"
               placeholder="Enter your email address"
-              className="w-full md:w-3/4 xl:w-2/3 py-2 px-4 mb-2 md:mb-0"
+              className="w-full py-2 px-4 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
-            <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition duration-200">
               Subscribe
             </button>
           </form>
         </div>
       </div>
-      <p className="text-center text-gray-600 text-sm mb-2">
+      <p className="text-center text-gray-400 text-sm mt-8">
         &copy; 2024 ApnaGhar Real Estate Pvt. Ltd. All rights reserved.
-
       </p>
     </footer>
   );
