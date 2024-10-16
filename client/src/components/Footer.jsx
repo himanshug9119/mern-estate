@@ -60,7 +60,8 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-center text-gray-600 text-sm mb-2">
-        &copy; 2024 Real Estate Listing Project. All rights reserved.
+        &copy; 2024 ApnaGhar Real Estate Pvt. Ltd. All rights reserved.
+
       </p>
     </footer>
   );

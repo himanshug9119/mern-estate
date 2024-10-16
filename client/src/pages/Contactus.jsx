@@ -17,7 +17,7 @@ const ContactUs = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const mailToLink = `mailto:guptasitapur489+realEstate@gmail.com?subject=${encodeURIComponent(
+    const mailToLink = `mailto:guptasitapur489+apnaGhar@gmail.com?subject=${encodeURIComponent(
       formData.subject
     )}&body=${encodeURIComponent(formData.message)}`;
     window.location.href = mailToLink;
@@ -34,7 +34,7 @@ const ContactUs = () => {
               <strong>Name:</strong> Himanshu Gupta
             </li>
             <li className="mb-3">
-              <strong>Email:</strong> <a href="mailto:guptasitapur489+realEstate@gmail.com">guptasitapur489+realEstate@gmail.com</a>
+              <strong>Email:</strong> <a href="mailto:guptasitapur489+realEstate@gmail.com">guptasitapur489+apnaGhar@gmail.com</a>
             </li>
             <li className="mb-3">
               <strong>Contact Number:</strong> +91 9918330323

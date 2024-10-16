@@ -6,7 +6,7 @@ export default function about() {
       <h1 className="text-3xl font-bold mb-4">
         Welcome to{" "}
         <span className="text-green-500 hover:text-blue-500 ">
-          <Link to={"/"}>Himanshu-estate</Link>
+          <Link to={"/"}>ApnaGhar</Link>
         </span>
       </h1>
 
@@ -15,7 +15,7 @@ export default function about() {
         <p>
           At{" "}
           <span className="text-green-500 hover:text-blue-500">
-            Himanshu-estate
+            ApnaGhar
           </span>
           , we are dedicated to transforming the real estate experience, making
           it seamless, efficient, and tailored to your needs.
@@ -85,7 +85,7 @@ export default function about() {
         <h2 className="text-2xl font-bold mb-4">
           Why Choose{" "}
           <span className="text-green-500 hover:text-blue-500">
-            Himanshu-estate
+            ApnaGhar
           </span>
         </h2>
         <ul className="list-disc pl-4">
@@ -108,7 +108,7 @@ export default function about() {
         <p>
           Ready to embark on your real estate journey? Sign up, explore
           listings, and experience the convenience of managing and finding
-          properties on <span className="text-green-500">Himanshu-estate</span>.
+          properties on <span className="text-green-500">ApnaGhar</span>.
         </p>
         <div className="flex mt-2">
           <Link
