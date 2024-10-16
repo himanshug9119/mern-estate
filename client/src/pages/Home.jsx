@@ -1,71 +1,61 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react'
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Autoplay, Pagination, Keyboard } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
+
 export default function Home() {
-  SwiperCore.use([Autoplay]);
-  SwiperCore.use([Pagination]);
-  SwiperCore.use([Keyboard]);
-  const [offerListings, setOfferListings] = useState({});
+  SwiperCore.use([Autoplay, Pagination, Keyboard]);
+  const [offerListings, setOfferListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
-  console.log(offerListings);
+
   useEffect(() => {
-    const fetchOfferListings = async () => {
+    const fetchListings = async (type) => {
       try {
-        const res = await fetch('/api/listing/get?offer=true&limit=4');
-        const data = await res.json();
-        setOfferListings(data);
-        fetchRentListings();
+        const res = await fetch(`/api/listing/get?${type}&limit=4`);
+        return await res.json();
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        return [];
       }
-    }
-    const fetchRentListings = async () => {
-      try {
-        const res = await fetch("/api/listing/get?type=rent&limit=4");
-        const data = await res.json();
-        setRentListings(data);
-        fetchSaleListings();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    const fetchSaleListings = async () => {
-      try {
-        const res = await fetch("/api/listing/get?type=sale&limit=4");
-        const data = await res.json();
-        setSaleListings(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchOfferListings();
+    };
+
+    const fetchAllListings = async () => {
+      const offers = await fetchListings("offer=true");
+      const rents = await fetchListings("type=rent");
+      const sales = await fetchListings("type=sale");
+
+      setOfferListings(offers);
+      setRentListings(rents);
+      setSaleListings(sales);
+    };
+
+    fetchAllListings();
   }, []);
+
   return (
-    <div>
-      {/* {top} */}
-      {/* <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-        <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
-          Find your next <span className="text-slate-500">perfect</span> <br />
-          place with ease
+    <div className="bg-gray-50">
+      {/* Header Section */}
+      <header className="max-w-6xl mx-auto py-10 px-4 text-center">
+        <h1 className="text-4xl lg:text-6xl font-bold text-gray-800">
+          Find your next perfect place with ease
         </h1>
-        <div className="text-grey-400 text-xs sm:text-sm">
-          Himanshu Estate is the best place to find your next perfect place to
-          live.
-          <br />
-          We have wide range of properties for you to choose from.
-        </div>
+        <p className="text-gray-600 mt-4 text-lg">
+          ApnaGhar is the best place to find your next perfect place to
+          live. We have a wide range of properties for you to choose from.
+        </p>
         <Link
-          className="text-xs sm:text-sm text-blue-800 font-bold hover:unserline"
+          className="inline-block mt-6 text-blue-600 font-semibold text-lg hover:underline"
           to="/search"
         >
           Let's get started
         </Link>
-      </div> */}
+      </header>
+
+      {/* Image Carousel */}
       <Swiper
         loop
         speed={500}
@@ -77,56 +67,49 @@ export default function Home() {
         pagination={{
           clickable: true,
         }}
+        className="h-[500px]"
       >
-        {offerListings &&
-          offerListings.length > 0 &&
-          offerListings.map((listing) => (
-            <SwiperSlide key={listing._id}>
-              <div
-                style={{
-                  background: `url(${listing.imageUrls[0]}) center no-repeat`,
-                  backgoundSize: "cover",
-                }}
-                className="h-[500px] w-full bg-cover bg-center bg-no-repeat"
-                key={listing._id}
-              >
-                <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-                  <h1 className="text-zinc-50 font-bold text-3xl lg:text-6xl">
-                    Find your next <span className="text-zinc-200">perfect</span> <br />
-                    place with ease
-                  </h1>
-                  <div className="text-zinc-50 text-2xl sm:text-sm">
-                    Himanshu Estate is the best place to find your next perfect place to
-                    live.
-                    <br />
-                    We have wide range of properties for you to choose from.
-                  </div>
-                  <Link
-                    className="text-xs sm:text-sm text-blue-800 font-bold hover:unserline"
-                    to="/search"
-                  >
-                    Let's get started
-                  </Link>
-                </div>
-
+        {offerListings.map((listing) => (
+          <SwiperSlide key={listing._id}>
+            <div
+              style={{
+                backgroundImage: `url(${listing.imageUrls[0]})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              className="h-full w-full flex items-center justify-center"
+            >
+              <div className="bg-black bg-opacity-50 p-6 rounded-lg text-center">
+                <h1 className="text-white text-3xl lg:text-5xl font-bold">
+                  Discover Your Dream Home
+                </h1>
+                <p className="text-white text-lg mt-2">
+                  Exclusive offers waiting for you!
+                </p>
+                <Link
+                  className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  to="/search"
+                >
+                  View Listings
+                </Link>
               </div>
-            </SwiperSlide>
-          ))}
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
-      {/* {listing results for offer,sale,rent} */}
-      <div
-        className="max-w-6xl mx-auto p-3 flex flex-col
-      gap-8 my-10"
-      >
-        {offerListings && offerListings.length > 0 && (
+
+      {/* Listings Section */}
+      <div className="max-w-6xl mx-auto p-6 flex flex-col gap-10 my-10">
+        {/* Offer Listings */}
+        {offerListings.length > 0 && (
           <div className="flex flex-col gap-6">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-700">
-                Recent Offer
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Recent Offers
               </h2>
               <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?offer=true"}
+                className="text-sm text-blue-600 hover:underline"
+                to="/search?offer=true"
               >
                 Show more
               </Link>
@@ -139,15 +122,16 @@ export default function Home() {
           </div>
         )}
 
-        {rentListings && rentListings.length > 0 && (
+        {/* Rent Listings */}
+        {rentListings.length > 0 && (
           <div className="flex flex-col gap-6">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-700">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-semibold text-gray-800">
                 Recent Rent Listings
               </h2>
               <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=rent"}
+                className="text-sm text-blue-600 hover:underline"
+                to="/search?type=rent"
               >
                 Show more
               </Link>
@@ -159,15 +143,17 @@ export default function Home() {
             </div>
           </div>
         )}
-        {saleListings && saleListings.length > 0 && (
+
+        {/* Sale Listings */}
+        {saleListings.length > 0 && (
           <div className="flex flex-col gap-6">
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-700">
-                Recent Sale Listings:
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Recent Sale Listings
               </h2>
               <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=sale"}
+                className="text-sm text-blue-600 hover:underline"
+                to="/search?type=sale"
               >
                 Show more
               </Link>
