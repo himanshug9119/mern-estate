@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
-    subject: "",
+    email: "",
     message: "",
   });
 
+  const [result, setResult] = useState("");
+  const [sending, setSending] = useState(false);
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -14,13 +15,30 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setResult("Sending...");
+    setSending(true);
+    const response = await fetch("/api/contactUs/submit_form", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    const mailToLink = `mailto:guptasitapur489+apnaGhar@gmail.com?subject=${encodeURIComponent(
-      formData.subject
-    )}&body=${encodeURIComponent(formData.message)}`;
-    window.location.href = mailToLink;
+    const resultData = await response.json();
+    setSending(false);
+    if (resultData.success) {
+      setResult("Form submitted successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } else {
+      setResult("Error: " + resultData.message);
+    }
   };
 
   return (
@@ -38,7 +56,6 @@ const ContactUs = () => {
             <ul className="space-y-4">
               {/* Name */}
               <li className="flex items-center">
-                {/* Inline SVG for Name */}
                 <svg
                   className="h-6 w-6 text-green-500 mr-3 flex-shrink-0"
                   xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +77,6 @@ const ContactUs = () => {
               </li>
               {/* Email */}
               <li className="flex items-center">
-                {/* Inline SVG for Email */}
                 <svg
                   className="h-6 w-6 text-green-500 mr-3 flex-shrink-0"
                   xmlns="http://www.w3.org/2000/svg"
@@ -80,16 +96,15 @@ const ContactUs = () => {
                   <p className="text-gray-600">
                     <a
                       href="mailto:guptasitapur489+apnaGhar@gmail.com"
-                      className="text-green-500 hover:underline"
+                      className="text-gray-600 hover:underline"
                     >
-                      guptasitapur489+apnaGhar@gmail.com
+                      guptasitapur418+apnaGhar@gmail.com
                     </a>
                   </p>
                 </div>
               </li>
               {/* Contact Number */}
               <li className="flex items-center">
-                {/* Inline SVG for Phone */}
                 <svg
                   className="h-6 w-6 text-green-500 mr-3 flex-shrink-0"
                   xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +126,6 @@ const ContactUs = () => {
               </li>
               {/* Address */}
               <li className="flex items-center">
-                {/* Inline SVG for Address */}
                 <svg
                   className="h-6 w-6 text-green-500 mr-3 flex-shrink-0"
                   xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +154,6 @@ const ContactUs = () => {
               Send Us a Message
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name Field */}
               <div>
                 <label
                   htmlFor="name"
@@ -151,32 +164,30 @@ const ContactUs = () => {
                 <input
                   type="text"
                   name="name"
-                  id="name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  required
+                  value={formData.name}
                   onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Enter your name"
                 />
               </div>
-              {/* Subject Field */}
               <div>
                 <label
-                  htmlFor="subject"
+                  htmlFor="email"
                   className="block text-gray-700 font-medium mb-1"
                 >
-                  Subject:
+                  Email:
                 </label>
                 <input
-                  type="text"
-                  name="subject"
-                  id="subject"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  required
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter subject"
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Enter your email"
                 />
               </div>
-              {/* Message Field */}
               <div>
                 <label
                   htmlFor="message"
@@ -186,17 +197,17 @@ const ContactUs = () => {
                 </label>
                 <textarea
                   name="message"
-                  id="message"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-                  rows="4"
-                  required
+                  value={formData.message}
                   onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  rows="4"
                   placeholder="Enter your message"
                 ></textarea>
               </div>
-              {/* Submit Button */}
               <div>
                 <button
+                  disabled={sending}
                   type="submit"
                   className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
                 >
@@ -204,6 +215,7 @@ const ContactUs = () => {
                 </button>
               </div>
             </form>
+            <span className="text-green-600 font-semibold">{result}</span>
           </div>
         </div>
       </div>
