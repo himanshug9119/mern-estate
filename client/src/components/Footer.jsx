@@ -12,7 +12,7 @@ const Footer = () => {
             <li className="mb-2">
               <Link
                 to="about"
-                className="hover:text-orange-400 transition duration-200"
+                className="hover:text-green-500 transition duration-200"
               >
                 About Us
               </Link>
@@ -20,7 +20,7 @@ const Footer = () => {
             <li className="mb-2">
               <Link
                 to="/contact"
-                className="hover:text-orange-400 transition duration-200"
+                className="hover:text-green-500 transition duration-200"
               >
                 Contact Us
               </Link>
@@ -28,7 +28,7 @@ const Footer = () => {
             <li className="mb-2">
               <Link
                 to="/faq"
-                className="hover:text-orange-400 transition duration-200"
+                className="hover:text-green-500 transition duration-200"
               >
                 FAQ
               </Link>
@@ -41,7 +41,7 @@ const Footer = () => {
             <li>
               <a
                 href="https://x.com/himanshug9119"
-                className="hover:text-orange-400 transition duration-200"
+                className="hover:text-green-500 transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -51,7 +51,7 @@ const Footer = () => {
             <li>
               <a
                 href="https://www.instagram.com/himanshug9119/"
-                className="hover:text-orange-400 transition duration-200"
+                className="hover:text-green-500 transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -61,7 +61,7 @@ const Footer = () => {
             <li>
               <a
                 href="https://www.linkedin.com/in/himanshug9119/"
-                className="hover:text-orange-400 transition duration-200"
+                className="hover:text-green-500 transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -80,7 +80,7 @@ const Footer = () => {
               placeholder="Enter your email address"
               className="w-full py-2 px-4 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
-            <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200">
               Subscribe
             </button>
           </form>

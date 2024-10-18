@@ -5,12 +5,15 @@ import SwiperCore from "swiper";
 import { Autoplay, Pagination, Keyboard } from "swiper/modules";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
+import Loader from "../components/Loader";
 
 export default function Home() {
   SwiperCore.use([Autoplay, Pagination, Keyboard]);
+
   const [offerListings, setOfferListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchListings = async (type) => {
@@ -31,10 +34,16 @@ export default function Home() {
       setOfferListings(offers);
       setRentListings(rents);
       setSaleListings(sales);
+      setLoading(false); // Set loading to false once data is fetched
     };
 
     fetchAllListings();
   }, []);
+
+  // If the data is still loading, show the Loader component
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="bg-gray-50">
@@ -44,11 +53,11 @@ export default function Home() {
           Find your next perfect place with ease
         </h1>
         <p className="text-gray-600 mt-4 text-lg">
-          ApnaGhar is the best place to find your next perfect place to
-          live. We have a wide range of properties for you to choose from.
+          ApnaGhar is the best place to find your next perfect place to live. We
+          have a wide range of properties for you to choose from.
         </p>
         <Link
-          className="inline-block mt-6 text-blue-600 font-semibold text-lg hover:underline"
+          className="inline-block mt-6 text-green-500 font-semibold text-lg hover:underline"
           to="/search"
         >
           Let's get started
@@ -87,7 +96,7 @@ export default function Home() {
                   Exclusive offers waiting for you!
                 </p>
                 <Link
-                  className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-blue-700"
                   to="/search"
                 >
                   View Listings
