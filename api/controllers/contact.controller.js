@@ -9,7 +9,7 @@ export const submit_form = async (req, res) => {
   }
 
   try {
-    const formData = new FormData();
+    const formData =  new URLSearchParams();
     formData.append("access_key", process.env.WEB3_FORM_API_KEY);
     formData.append("name", name);
     formData.append("email", email);
