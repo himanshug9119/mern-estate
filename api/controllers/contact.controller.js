@@ -1,5 +1,4 @@
 import FormData from "form-data"; 
-import fetch from "node-fetch"; 
 
 export const submit_form = async (req, res) => {
   const { name, email, message } = req.body;
