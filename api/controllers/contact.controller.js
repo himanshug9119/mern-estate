@@ -1,4 +1,7 @@
+import FormData from "form-data"; // Import the form-data package
+import fetch from "node-fetch"; // If not already imported, use node-fetch to make the request
 import { errorHandler } from "../utils/error.js";
+
 export const submit_form = async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -9,14 +12,16 @@ export const submit_form = async (req, res) => {
   }
 
   try {
-    const formData =  new URLSearchParams();
+    const formData = new FormData();
     formData.append("access_key", process.env.WEB3_FORM_API_KEY);
     formData.append("name", name);
     formData.append("email", email);
     formData.append("message", message);
+
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       body: formData,
+      headers: formData.getHeaders(), // Important to add form-data headers for Node.js
     });
 
     const data = await response.json();
