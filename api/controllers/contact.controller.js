@@ -1,6 +1,5 @@
-import FormData from "form-data"; // Import the form-data package
-import fetch from "node-fetch"; // If not already imported, use node-fetch to make the request
-import { errorHandler } from "../utils/error.js";
+import FormData from "form-data"; 
+import fetch from "node-fetch"; 
 
 export const submit_form = async (req, res) => {
   const { name, email, message } = req.body;
