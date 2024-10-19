@@ -54,6 +54,7 @@ export default function Header() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
+      setDropdownOpen(false);
       const res = await fetch("/api/auth/signout");
       const data = await res.json();
       if (data.success == false) {
@@ -90,6 +91,14 @@ export default function Header() {
             <Link to="/" className={getLinkClasses("/")}>
               Home
             </Link>
+            {currentUser && (
+              <Link
+                to="/create-listing"
+                className={getLinkClasses("/create-listing")}
+              >
+                Create Listing
+              </Link>
+            )}
             <Link to="/about" className={getLinkClasses("/about")}>
               About
             </Link>
@@ -134,6 +143,7 @@ export default function Header() {
                     <Link
                       to="/profile"
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => setDropdownOpen(false)}
                     >
                       Profile
                     </Link>
@@ -229,6 +239,19 @@ export default function Header() {
             >
               Home
             </Link>
+            {currentUser && (
+              <Link
+                to="/create-listing"
+                className={`block px-2 py-1 rounded-md ${
+                  location.pathname === "/create-listing"
+                    ? "bg-green-500 text-white"
+                    : "text-gray-700 hover:bg-green-100"
+                }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Create Listing
+              </Link>
+            )}
             <Link
               to="/about"
               className={`block px-2 py-1 rounded-md ${
